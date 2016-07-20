@@ -1,0 +1,31 @@
+{
+  "name": "js-raster-tools",
+  "version": "0.0.1",
+  "description": "Tools for drawing your raster files with JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rveciana/js-raster-tools.git"
+  },
+  "keywords": [
+    "isolines",
+    "isobands",
+    "raster",
+    "canvas",
+    "svg"
+  ],
+  "author": "Roger Veciana i Rovira",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/rveciana/js-raster-tools/issues"
+  },
+  "homepage": "https://github.com/rveciana/js-raster-tools#readme",
+  "devDependencies": {
+    "rollup": "^0.34.1",
+    "tape": "^4.6.0",
+    "uglify-js": "^2.7.0"
+  }
+}
