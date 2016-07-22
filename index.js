@@ -1,0 +1,1 @@
+export {default as isobands} from "./src/marchingsquares-isobands";
