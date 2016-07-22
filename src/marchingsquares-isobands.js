@@ -1,3 +1,36 @@
+
+  export var isobands = function(data, geoTransform, intervals){
+
+  };
+  export var isoband = function(data, geoTransform, minV, bandwidth){
+    if(typeof(geoTransform) != typeof(new Array()) || geoTransform.length != 6)
+        throw new Error("GeoTransform must be a 6 elements array");
+    var coords = isobandCoords(data, minV, bandwidth);
+
+    var path = "";
+    for(var i = 0; i<coords.length; i++){
+        var coordsGeo = applyGeoTransform(coords[i][0][0], coords[i][0][1], geoTransform);
+        path += "M"+coordsGeo[0]+","+coordsGeo[1];
+        for(var j = 1; j<coords[i].length; j++){
+            coordsGeo = applyGeoTransform(coords[i][j][0], coords[i][j][1], geoTransform);
+            path += "L"+coordsGeo[0]+","+coordsGeo[1];
+        }
+        path+="Z";
+    }
+
+    return path;
+  };
+
+  /**
+    Xgeo = GT(0) + Xpixel*GT(1) + Yline*GT(2)
+    Ygeo = GT(3) + Xpixel*GT(4) + Yline*GT(5)
+  */
+  var applyGeoTransform = function(x, y, geoTransform){
+    var xgeo = geoTransform[0] + x*geoTransform[1] + y*geoTransform[2];
+    var ygeo = geoTransform[3] + x*geoTransform[4] + y*geoTransform[5];
+    return [xgeo, ygeo];
+  }
+
   /*
     Compute isobands(s) of a scalar 2D field given a certain
     threshold and a bandwidth by applying the Marching Squares
@@ -5,13 +38,12 @@
     either for individual polygons within each grid cell, or the
     outline of connected polygons.
   */
-  export default function(data, minV, bandwidth, options){
+  export var isobandCoords = function(data, minV, bandwidth, options){
     var settings = {};
     var defaultSettings = {
     successCallback:  null,
     progressCallback: null,
-    verbose:          false,
-    polygons:         false
+    verbose:          false
     };
 
     /* process options */
@@ -41,6 +73,7 @@
     }
 
     var ret = BandGrid2AreaPaths(grid);
+
     
 
     if(typeof settings.successCallback === 'function')
@@ -2907,4 +2940,3 @@
     return areas;
   }*/
 
-   
