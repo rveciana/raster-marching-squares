@@ -1,1 +1,1 @@
-export {isobandCoords, isoband, isobands} from "./src/marchingsquares-isobands";
+export {isoband, projectedIsoband, isobands} from "./src/marchingsquares-isobands";

@@ -1,24 +1,35 @@
 
   export var isobands = function(data, geoTransform, intervals){
-
+    var bands = { "type": "FeatureCollection",
+    "features": []
+    };
+    for(var i=1; i<intervals.length; i++){
+        var lowerValue = intervals[i-1];
+        var upperValue = intervals[i];
+        var coords = isoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+        bands['features'].push({"type": "Feature",
+         "geometry": {
+           "type": "Polygon",
+          "coordinates": coords},
+          "properties": [{"lowerValue": lowerValue, "upperValue": upperValue}]}
+        );
+    }
+    return bands;
   };
-  export var isoband = function(data, geoTransform, minV, bandwidth){
+  export var projectedIsoband = function(data, geoTransform, minV, bandwidth){
     if(typeof(geoTransform) != typeof(new Array()) || geoTransform.length != 6)
         throw new Error("GeoTransform must be a 6 elements array");
-    var coords = isobandCoords(data, minV, bandwidth);
+    var coords = isoband(data, minV, bandwidth);
 
-    var path = "";
     for(var i = 0; i<coords.length; i++){
-        var coordsGeo = applyGeoTransform(coords[i][0][0], coords[i][0][1], geoTransform);
-        path += "M"+coordsGeo[0]+","+coordsGeo[1];
-        for(var j = 1; j<coords[i].length; j++){
-            coordsGeo = applyGeoTransform(coords[i][j][0], coords[i][j][1], geoTransform);
-            path += "L"+coordsGeo[0]+","+coordsGeo[1];
+        for(var j = 0; j<coords[i].length; j++){
+            var coordsGeo = applyGeoTransform(coords[i][j][0], coords[i][j][1], geoTransform);
+            coords[i][j][0]= coordsGeo[0];
+            coords[i][j][1]= coordsGeo[1];
         }
-        path+="Z";
     }
 
-    return path;
+    return coords;
   };
 
   /**
@@ -38,7 +49,7 @@
     either for individual polygons within each grid cell, or the
     outline of connected polygons.
   */
-  export var isobandCoords = function(data, minV, bandwidth, options){
+  export var isoband = function(data, minV, bandwidth, options){
     var settings = {};
     var defaultSettings = {
     successCallback:  null,

@@ -6,7 +6,7 @@ tape("Basic isobands must behave as expected", function(test) {
                 [0, 1, 0],
                 [0, 0, 0]];
 
-    test.deepEqual(isobands.isobandCoords(data, 0.5, 1.0), 
+    test.deepEqual(isobands.isoband(data, 0.5, 1.0), 
                    [[[1, 0.5],[0.5,1],[1,1.5],[1.5,1],[1,0.5]]],
                    "The basic band must be correct");
 
@@ -18,7 +18,7 @@ tape("Basic isobands must behave as expected", function(test) {
             [5, 12, 12, 12, 12, 12, 5],
             [5, 5, 5, 5, 5, 5, 5]];
 
-    var band = isobands.isobandCoords(data, 9, 4);
+    var band = isobands.isoband(data, 9, 4);
     test.equal(band.length, 4, "This data should give a four rings polygon");
 
     test.deepEqual(band[0], 
@@ -35,20 +35,45 @@ tape("Isobands path format", function(test) {
                 [0, 1, 0],
                 [0, 0, 0]];
 
-    test.throws(function() {isobands.isoband(data, "hola", 0.5, 1.0)},
+    test.throws(function() {isobands.projectedIsoband(data, "hola", 0.5, 1.0)},
         Error("GeoTransform must be a 6 elements array"),
         "Correct error when GeoTransform is wrong"); 
 
-     test.throws(function() {isobands.isoband(data, [34], 0.5, 1.0)},
+    test.throws(function() {isobands.projectedIsoband(data, [34], 0.5, 1.0)},
         Error("GeoTransform must be a 6 elements array"),
         "Correct error when GeoTransform is wrong"); 
+     
+    test.deepEqual(isobands.projectedIsoband(data, [10, 1, 0, 10, 0, -1], 0.5, 1.0),
+        [[[11,9.5],[10.5,9],[11,8.5],[11.5,9],[11,9.5]]], "The simple isoband must be correct");
 
-     var path = isobands.isoband(data, [10, 1, 0, 10, 0, -1], 0.5, 1.0)
-     test.equal(path, "M11,9.5L10.5,9L11,8.5L11.5,9L11,9.5Z", "Path must be correct");
+    test.deepEqual(isobands.projectedIsoband(data, [20, 1, 0, 10, 0, -1], 0.5, 1.0),
+        [[[21,9.5],[20.5,9],[21,8.5],[21.5,9],[21,9.5]]], "Correct path with another GeoTransform");
 
-     var path = isobands.isoband(data, [20, 1, 0, 10, 0, -1], 0.5, 1.0)
-     test.equal(path, "M21,9.5L20.5,9L21,8.5L21.5,9L21,9.5Z", "Correct path with another GeoTransform");
 
     test.end();
 });
+
+tape("Isobands multiple breaks and GeoJSON output", function(test) {    
+    var data = [[5, 5, 5, 5, 5, 5, 5],
+            [5, 12, 12, 12, 12, 12, 5],
+            [5, 12, 5, 5, 5, 12, 5],
+            [5, 12, 5, 18, 5, 12, 5],
+            [5, 12, 5, 5, 5, 12, 5],
+            [5, 12, 12, 12, 12, 12, 5],
+            [5, 5, 5, 5, 5, 5, 5]];
+
+    var intervals = [6, 10, 14];
+    var geoTransform = [10, 1, 0, 10, 0, -1];
+    var bands = isobands.isobands(data, geoTransform, intervals);
+
+    test.equal(bands['features'].length, 2, "The function must generate two bands");
+
+    test.deepEqual(bands['features'][0]['properties'],
+        [{ lowerValue: 6, upperValue: 10 }], "Intervals must be set as properties");
+    test.deepEqual(bands['features'][1]['properties'],
+        [{ lowerValue: 10, upperValue: 14 }], "Intervals must be set as properties")
+
+    test.end();
+});
+
 
