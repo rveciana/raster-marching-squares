@@ -71,7 +71,11 @@ tape("Isobands multiple breaks and GeoJSON output", function(test) {
     test.deepEqual(bands['features'][0]['properties'],
         [{ lowerValue: 6, upperValue: 10 }], "Intervals must be set as properties");
     test.deepEqual(bands['features'][1]['properties'],
-        [{ lowerValue: 10, upperValue: 14 }], "Intervals must be set as properties")
+        [{ lowerValue: 10, upperValue: 14 }], "Intervals must be set as properties");
+
+    test.equal(bands['features'][1]['geometry']['coordinates'].length, 
+        4, "Coordinates must have four elements");
+
 
     test.end();
 });

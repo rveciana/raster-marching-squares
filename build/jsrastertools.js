@@ -4,14 +4,17 @@
   (factory((global.rastertools = global.rastertools || {})));
 }(this, function (exports) { 'use strict';
 
-  var isobands = function(data, geoTransform, intervals){
+  var rewind = require("geojson-rewind");
+
+    var isobands = function(data, geoTransform, intervals){
       var bands = { "type": "FeatureCollection",
       "features": []
       };
       for(var i=1; i<intervals.length; i++){
           var lowerValue = intervals[i-1];
           var upperValue = intervals[i];
-          var coords = isoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+          var coords = projectedIsoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+
           bands['features'].push({"type": "Feature",
            "geometry": {
              "type": "Polygon",
@@ -19,7 +22,8 @@
             "properties": [{"lowerValue": lowerValue, "upperValue": upperValue}]}
           );
       }
-      return bands;
+      
+      return rewind(bands, true);
     };
     var projectedIsoband = function(data, geoTransform, minV, bandwidth){
       if(typeof(geoTransform) != typeof(new Array()) || geoTransform.length != 6)

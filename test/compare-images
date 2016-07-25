@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for i in \
+    isobands-simple \
+    isobands-breaks; do
+   test/render-isobands.js $i \
+      && [ "$(compare -metric rmse test/samples/$i.png test/output/$i.png null: 2>&1)" = "0 (0)" ] \
+      || echo "✗ test/output/$i.png and test/samples/$i.png differ"
+done

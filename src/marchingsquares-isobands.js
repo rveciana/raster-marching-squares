@@ -1,3 +1,4 @@
+var rewind = require("geojson-rewind");
 
   export var isobands = function(data, geoTransform, intervals){
     var bands = { "type": "FeatureCollection",
@@ -6,7 +7,8 @@
     for(var i=1; i<intervals.length; i++){
         var lowerValue = intervals[i-1];
         var upperValue = intervals[i];
-        var coords = isoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+        var coords = projectedIsoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+
         bands['features'].push({"type": "Feature",
          "geometry": {
            "type": "Polygon",
@@ -14,7 +16,8 @@
           "properties": [{"lowerValue": lowerValue, "upperValue": upperValue}]}
         );
     }
-    return bands;
+    
+    return rewind(bands, true);
   };
   export var projectedIsoband = function(data, geoTransform, minV, bandwidth){
     if(typeof(geoTransform) != typeof(new Array()) || geoTransform.length != 6)
