@@ -1,6 +1,4 @@
-var rewind = require("geojson-rewind");
-
-  export var isobands = function(data, geoTransform, intervals){
+export var isobands = function(data, geoTransform, intervals){
     var bands = { "type": "FeatureCollection",
     "features": []
     };
@@ -8,6 +6,9 @@ var rewind = require("geojson-rewind");
         var lowerValue = intervals[i-1];
         var upperValue = intervals[i];
         var coords = projectedIsoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+        //Change clockwise
+        for(var j=0; j< coords.length; j++)
+          coords[j].reverse();
 
         bands['features'].push({"type": "Feature",
          "geometry": {
@@ -16,10 +17,12 @@ var rewind = require("geojson-rewind");
           "properties": [{"lowerValue": lowerValue, "upperValue": upperValue}]}
         );
     }
-    
-    return rewind(bands, true);
+
+    return bands;
   };
-  export var projectedIsoband = function(data, geoTransform, minV, bandwidth){
+
+
+export var projectedIsoband = function(data, geoTransform, minV, bandwidth){
     if(typeof(geoTransform) != typeof(new Array()) || geoTransform.length != 6)
         throw new Error("GeoTransform must be a 6 elements array");
     var coords = isoband(data, minV, bandwidth);
@@ -2647,7 +2650,7 @@ var rewind = require("geojson-rewind");
                             d_y = isoBandNextYRT[cval];
                             d_o = isoBandNextORT[cval];
                             break;
-                };
+                }
                 break;
       case 1:   switch(o){
                   case 0:   e = isoBandEdgeLB[cval];
@@ -2660,7 +2663,7 @@ var rewind = require("geojson-rewind");
                             d_y = isoBandNextYLT[cval];
                             d_o = isoBandNextOLT[cval];
                             break;
-                };
+                }
                 break;
       default:  switch(y){
                   case -1:  switch(o){
@@ -2674,7 +2677,7 @@ var rewind = require("geojson-rewind");
                                         d_y = isoBandNextYTR[cval];
                                         d_o = isoBandNextOTR[cval];
                                         break;
-                            };
+                            }
                             break;
                   case 1:   switch(o){
                               case 0:   e = isoBandEdgeBL[cval];
@@ -2687,10 +2690,10 @@ var rewind = require("geojson-rewind");
                                         d_y = isoBandNextYBR[cval];
                                         d_o = isoBandNextOBR[cval];
                                         break;
-                            };
+                            }
                             break;
                   default:  break;
-                };
+                }
                 break;
     }
 

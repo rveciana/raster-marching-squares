@@ -47,7 +47,7 @@ bands.features.forEach(function(d, i) {
     context.fillStyle = colors[i];
     context.strokeStyle = colors[i];
     path(d);
-    context.stroke();
+    context.fill();
 });
 
 console.warn("↳ test/output/" + name + ".png");

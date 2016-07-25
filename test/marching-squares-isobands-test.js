@@ -30,7 +30,7 @@ tape("Basic isobands must behave as expected", function(test) {
     test.end();
 });
 
-tape("Isobands path format", function(test) {    
+tape("Isobands with projected coordinates", function(test) {    
     var data = [[0, 0, 0],
                 [0, 1, 0],
                 [0, 0, 0]];
@@ -65,7 +65,7 @@ tape("Isobands multiple breaks and GeoJSON output", function(test) {
     var intervals = [6, 10, 14];
     var geoTransform = [10, 1, 0, 10, 0, -1];
     var bands = isobands.isobands(data, geoTransform, intervals);
-
+    
     test.equal(bands['features'].length, 2, "The function must generate two bands");
 
     test.deepEqual(bands['features'][0]['properties'],

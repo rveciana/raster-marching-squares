@@ -4,9 +4,7 @@
   (factory((global.rastertools = global.rastertools || {})));
 }(this, function (exports) { 'use strict';
 
-  var rewind = require("geojson-rewind");
-
-    var isobands = function(data, geoTransform, intervals){
+  var isobands = function(data, geoTransform, intervals){
       var bands = { "type": "FeatureCollection",
       "features": []
       };
@@ -14,6 +12,9 @@
           var lowerValue = intervals[i-1];
           var upperValue = intervals[i];
           var coords = projectedIsoband(data, geoTransform, lowerValue, upperValue - lowerValue);
+          //Change clockwise
+          for(var j=0; j< coords.length; j++)
+            coords[j].reverse();
 
           bands['features'].push({"type": "Feature",
            "geometry": {
@@ -22,10 +23,12 @@
             "properties": [{"lowerValue": lowerValue, "upperValue": upperValue}]}
           );
       }
-      
-      return rewind(bands, true);
+
+      return bands;
     };
-    var projectedIsoband = function(data, geoTransform, minV, bandwidth){
+
+
+  var projectedIsoband = function(data, geoTransform, minV, bandwidth){
       if(typeof(geoTransform) != typeof(new Array()) || geoTransform.length != 6)
           throw new Error("GeoTransform must be a 6 elements array");
       var coords = isoband(data, minV, bandwidth);
@@ -2523,7 +2526,7 @@
                               d_y = isoBandNextYRT[cval];
                               d_o = isoBandNextORT[cval];
                               break;
-                  };
+                  }
                   break;
         case 1:   switch(o){
                     case 0:   e = isoBandEdgeLB[cval];
@@ -2536,7 +2539,7 @@
                               d_y = isoBandNextYLT[cval];
                               d_o = isoBandNextOLT[cval];
                               break;
-                  };
+                  }
                   break;
         default:  switch(y){
                     case -1:  switch(o){
@@ -2550,7 +2553,7 @@
                                           d_y = isoBandNextYTR[cval];
                                           d_o = isoBandNextOTR[cval];
                                           break;
-                              };
+                              }
                               break;
                     case 1:   switch(o){
                                 case 0:   e = isoBandEdgeBL[cval];
@@ -2563,10 +2566,10 @@
                                           d_y = isoBandNextYBR[cval];
                                           d_o = isoBandNextOBR[cval];
                                           break;
-                              };
+                              }
                               break;
                     default:  break;
-                  };
+                  }
                   break;
       }
 
