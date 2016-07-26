@@ -3,6 +3,10 @@
 var fs = require("fs"),
     Canvas = require("canvas"),
     d3_geo = require("d3-geo"),
+    d3_array = require("d3-array"),
+    d3_scale = require("d3-scale"),
+    geotiff = require("geotiff"),
+    topojson = require("topojson"),
     isobands = require("../");
 
 
@@ -35,20 +39,67 @@ testData = {
 };
 
 var geoTransform = [-30, 10, 0, 30, 0, -10];
-var bands = isobands.isobands(testData[name]['data'], geoTransform, testData[name]['intervals']);
 
-var colors = ["#f00", "#00f", "#0f0"]
 
-var path2 = d3_geo.geoPath()
-    .projection(projection);
 
-bands.features.forEach(function(d, i) {
+if(name.indexOf("geotiff") == -1){
+    var colors = ["#f00", "#00f", "#0f0"];
+    var bands = isobands.isobands(testData[name]['data'], geoTransform, testData[name]['intervals']);
+    bands.features.forEach(function(d, i) {
+
     context.beginPath();
     context.fillStyle = colors[i];
-    context.strokeStyle = colors[i];
     path(d);
     context.fill();
-});
+
+    
+    });
+    
+} else {
+    var tiffData = fs.readFileSync("test/samples/sfctmp.tiff");
+    var arrayBuffer = tiffData.buffer.slice(tiffData.byteOffset, tiffData.byteOffset + tiffData.byteLength);
+    var tiff = geotiff.parse(arrayBuffer);
+    var image = tiff.getImage(); 
+    var rasters = image.readRasters();
+    var data = new Array(image.getHeight());
+    for (var j = 0; j<image.getHeight(); j++){ 
+        data[j] = new Array(image.getWidth());
+        for (var i = 0; i<image.getWidth(); i++){
+            data[j][i] = rasters[0][i + j*image.getWidth()];
+        }
+    }
+
+    var maxVal = 70.0;
+    var minVal = -75.0;
+
+    var intervals = d3_array.range(minVal, maxVal+(maxVal-minVal)/20, (maxVal-minVal)/20);
+    var colors = d3_array.ticks(0, 1, intervals.length).map(function(d){return d3_scale.interpolatePlasma(d);});
+    geoTransform = [0, 0.500695, 0, 90, 0, -0.5]; //x-interval corrected to match borders
+
+    var bands = isobands.isobands(data, geoTransform, intervals);
+
+    bands.features.forEach(function(d, i) {
+
+    context.beginPath();
+    context.fillStyle = colors[i];
+    path(d);
+    context.fill();
+
+    
+    
+    });
+
+    var topojsonData = JSON.parse(fs.readFileSync("test/samples/world-110m.json", "utf-8"));
+    var jsonData = topojson.feature(topojsonData, topojsonData.objects.countries);
+    context.beginPath();
+    context.strokeStyle = "#000";
+    path(jsonData);
+    context.stroke();
+}
+
+
+
+
 
 console.warn("↳ test/output/" + name + ".png");
 canvas.pngStream().pipe(fs.createWriteStream("test/output/"+name+".png"));
