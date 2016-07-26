@@ -47,7 +47,7 @@ tape("Isobands with projected coordinates", function(test) {
         [[[11,9.5],[10.5,9],[11,8.5],[11.5,9],[11,9.5]]], "The simple isoband must be correct");
 
     test.deepEqual(isobands.projectedIsoband(data, [20, 1, 0, 10, 0, -1], 0.5, 1.0),
-        [[[21,9.5],[20.5,9],[21,8.5],[21.5,9],[21,9.5]]], "Correct path with another GeoTransform");
+        [[[21,9.5],[20.5,9],[21,8.5],[21.5,9],[21,9.5]]], "Correct isoband with another GeoTransform");
 
 
     test.end();
