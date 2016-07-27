@@ -21,7 +21,7 @@
   "main": "build/d3-marching-squares.js",
   "jsnext:main": "index",
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n rastertools -o build/d3-marching-squares.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3marchingsquares -o build/d3-marching-squares.js -- index.js",
     "test": "tape 'test/**/*-test.js' && mkdir -p test/output && test/compare-images",
     "prepublish": "npm run test && uglifyjs build/d3-marching-squares.js -c -m -o build/d3-marching-squares.min.js",
     "postpublish": "zip -j build/d3-marching-squares.zip -- LICENSE README.md build/d3-marching-squares.js build/d3-marching-squares.min.js"
