@@ -6,7 +6,7 @@ tape("Basic isobands must behave as expected", function(test) {
                 [0, 1, 0],
                 [0, 0, 0]];
 
-    test.deepEqual(isobands.isoband(data, 0.5, 1.0), 
+    test.deepEqual(isobands.isoband(data, 0.5, 1.0, {verbose:true}), 
                    [[[1, 0.5],[0.5,1],[1,1.5],[1.5,1],[1,0.5]]],
                    "The basic band must be correct");
 

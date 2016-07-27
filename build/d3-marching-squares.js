@@ -87,20 +87,7 @@
 
       var grid = computeBandGrid(data, minV, bandwidth);
 
-      if(settings.verbose){
-        if(settings.polygons){
-          console.log("returning single polygons for each grid cell");
-        } else {
-          console.log("returning polygon paths for entire data grid");
-        }
-      }
-
       var ret = BandGrid2AreaPaths(grid);
-
-      
-
-      if(typeof settings.successCallback === 'function')
-        settings.successCallback(ret);
 
       return ret;
     };
