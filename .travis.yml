@@ -17,3 +17,6 @@ deploy:
   on:
     tags: true
     repo: rveciana/d3-marching-squares
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libgif-dev
