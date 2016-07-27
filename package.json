@@ -18,13 +18,13 @@
     "url": "https://github.com/rveciana/js-raster-tools/issues"
   },
   "homepage": "https://github.com/rveciana/js-raster-tools#readme",
-  "main": "build/jsrastertools.js",
+  "main": "build/d3-marching-squares.js",
   "jsnext:main": "index",
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n rastertools -o build/jsrastertools.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n rastertools -o build/d3-marching-squares.js -- index.js",
     "test": "tape 'test/**/*-test.js' && mkdir -p test/output && test/compare-images",
-    "prepublish": "npm run test && uglifyjs build/jsrastertools.js -c -m -o build/jsrastertools.min.js",
-    "postpublish": "zip -j build/jsrastertools.zip -- LICENSE README.md build/jsrastertools.js build/jsrastertools.min.js"
+    "prepublish": "npm run test && uglifyjs build/d3-marching-squares.js -c -m -o build/d3-marching-squares.min.js",
+    "postpublish": "zip -j build/d3-marching-squares.zip -- LICENSE README.md build/d3-marching-squares.js build/d3-marching-squares.min.js"
   },
   "repository": {
     "type": "git",
