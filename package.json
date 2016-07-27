@@ -1,5 +1,5 @@
 {
-  "name": "js-georaster-tools",
+  "name": "d3-marching-squares",
   "version": "0.0.2",
   "description": "Tools for drawing your raster files with JavaScript",
   "keywords": [
