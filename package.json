@@ -1,6 +1,6 @@
 {
   "name": "d3-marching-squares",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tools for drawing your raster files with JavaScript",
   "keywords": [
     "isolines",
