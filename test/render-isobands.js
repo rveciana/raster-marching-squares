@@ -11,8 +11,8 @@ var fs = require("fs"),
 
 
 var width = 960,
-    height= 500
-    name = process.argv[2];
+    height= 500;
+var name = process.argv[2];
 
 var canvas = new Canvas(width, height),
 context = canvas.getContext("2d");
@@ -23,7 +23,7 @@ var path = d3_geo.geoPath()
     .projection(projection)
     .context(context);
 
-testData = {
+var testData = {
 "isobands-simple": {"data": [[0, 0, 0],
            [0, 1, 0],
            [0, 0, 0]],
@@ -42,9 +42,9 @@ var geoTransform = [-30, 10, 0, 30, 0, -10];
 
 
 
-if(name.indexOf("geotiff") == -1){
+if(name.indexOf("geotiff") === -1){
     var colors = ["#f00", "#00f", "#0f0"];
-    var bands = isobands.isobands(testData[name]['data'], geoTransform, testData[name]['intervals']);
+    var bands = isobands.isobands(testData[name].data, geoTransform, testData[name].intervals);
     bands.features.forEach(function(d, i) {
 
     context.beginPath();

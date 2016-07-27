@@ -6,7 +6,7 @@
         var value = intervals[i];
         var coords = projectedIsoline(data, geoTransform, value);
        
-        lines['features'].push({"type": "Feature",
+        lines.features.push({"type": "Feature",
          "geometry": {
            "type": "MultiLineString",
           "coordinates": coords},
@@ -41,7 +41,7 @@
     var xgeo = geoTransform[0] + x*geoTransform[1] + y*geoTransform[2];
     var ygeo = geoTransform[3] + x*geoTransform[4] + y*geoTransform[5];
     return [xgeo, ygeo];
-  }
+  };
 
  export var isoline  = function(data, threshold, options){
     var defaultSettings = {
@@ -131,7 +131,7 @@
         }
 
         /* add cell to ContourGrid if it contains edges */
-        if(cval != 0 && cval != 15){
+        if(cval !== 0 && cval !== 15){
           var top, bottom, left, right;
           top = bottom = left = right = 0.5;
           /* interpolate edges of cell */
@@ -205,7 +205,7 @@
   }
 
   function isTrivial(cell){
-    return cell.cval == 0 || cell.cval == 15;
+    return cell.cval === 0 || cell.cval == 15;
   }
 
   function clearCell(cell){
@@ -278,8 +278,7 @@
     var dx, dy;
     var startEdge = ["none", "left", "bottom", "left", "right", "none", "bottom", "left", "top", "top", "none", "top", "right", "right", "bottom", "none"];
     var nextEdge  = ["none", "bottom", "right", "right", "top", "top", "top", "top", "left", "bottom", "right", "right", "left", "bottom", "left", "none"];
-    var edge;
-
+    
     var startCell   = grid[j][i];
     var currentCell = grid[j][i];
 
@@ -307,7 +306,7 @@
         break;
       }
       cval = currentCell.cval;
-      if((cval == 0) || (cval == 15)){
+      if((cval === 0) || (cval === 15)){
         return { path: p, info: "mergeable" };
       }
       edge  = nextEdge[cval];

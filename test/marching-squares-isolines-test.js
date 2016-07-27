@@ -15,7 +15,7 @@ tape("Basic lines must behave as expected", function(test) {
             [0, 0, 0],
             [0, 0, 0]];
 
-    var isolinesData = isolines.isoline(data, 0.5);
+    isolinesData = isolines.isoline(data, 0.5);
 
     test.deepEqual(isolinesData, 
                    [[[1.5,0],[2,0.5]]],
@@ -30,7 +30,7 @@ tape("Basic lines must behave as expected", function(test) {
             [5, 12, 12, 12, 12, 12, 5],
             [5, 5, 5, 5, 5, 5, 5]];
 
-    var isolinesData = isolines.isoline(data, 9);
+    isolinesData = isolines.isoline(data, 9);
     test.equal(isolinesData.length, 3, "This data should give three isolines (not four as in isobands)");
 
     test.deepEqual(isolinesData[0], 
@@ -44,11 +44,11 @@ tape("Isolines with projected coordinates", function(test) {
                 [0, 1, 0],
                 [0, 0, 0]];
 
-    test.throws(function() {isolines.projectedIsoline(data, "hola", 0.5, 1.0)},
+    test.throws(function() {isolines.projectedIsoline(data, "hola", 0.5, 1.0);},
         Error("GeoTransform must be a 6 elements array"),
         "Correct error when GeoTransform is wrong"); 
 
-    test.throws(function() {isolines.projectedIsoline(data, [34], 0.5, 1.0)},
+    test.throws(function() {isolines.projectedIsoline(data, [34], 0.5, 1.0);},
         Error("GeoTransform must be a 6 elements array"),
         "Correct error when GeoTransform is wrong"); 
 
@@ -68,8 +68,8 @@ tape("Isolines multiple breaks and GeoJSON output", function(test) {
                 [0, 0, 0]];
 
     var lines = isolines.isolines(data, [10, 1, 0, 10, 0, -1], [0.5]);
-    test.equal(lines['features'].length, 1, "The function must generate one isoline");
-    test.deepEqual(lines['features'][0]['properties'],
+    test.equal(lines.features.length, 1, "The function must generate one isoline");
+    test.deepEqual(lines.features[0].properties,
         [{ value: 0.5 }], "Value must be set as properties");
 
     test.equal(lines.features[0].geometry.type, "MultiLineString", "The geometry type must be MultiLineString");

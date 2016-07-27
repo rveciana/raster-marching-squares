@@ -10,7 +10,7 @@ tape("Basic isobands must behave as expected", function(test) {
                    [[[1, 0.5],[0.5,1],[1,1.5],[1.5,1],[1,0.5]]],
                    "The basic band must be correct");
 
-    var data = [[5, 5, 5, 5, 5, 5, 5],
+    data = [[5, 5, 5, 5, 5, 5, 5],
             [5, 12, 12, 12, 12, 12, 5],
             [5, 12, 5, 5, 5, 12, 5],
             [5, 12, 5, 18, 5, 12, 5],
@@ -35,11 +35,11 @@ tape("Isobands with projected coordinates", function(test) {
                 [0, 1, 0],
                 [0, 0, 0]];
 
-    test.throws(function() {isobands.projectedIsoband(data, "hola", 0.5, 1.0)},
+    test.throws(function() {isobands.projectedIsoband(data, "hola", 0.5, 1.0);},
         Error("GeoTransform must be a 6 elements array"),
         "Correct error when GeoTransform is wrong"); 
 
-    test.throws(function() {isobands.projectedIsoband(data, [34], 0.5, 1.0)},
+    test.throws(function() {isobands.projectedIsoband(data, [34], 0.5, 1.0);},
         Error("GeoTransform must be a 6 elements array"),
         "Correct error when GeoTransform is wrong"); 
      
@@ -66,14 +66,14 @@ tape("Isobands multiple breaks and GeoJSON output", function(test) {
     var geoTransform = [10, 1, 0, 10, 0, -1];
     var bands = isobands.isobands(data, geoTransform, intervals);
     
-    test.equal(bands['features'].length, 2, "The function must generate two bands");
+    test.equal(bands.features.length, 2, "The function must generate two bands");
 
-    test.deepEqual(bands['features'][0]['properties'],
+    test.deepEqual(bands.features[0].properties,
         [{ lowerValue: 6, upperValue: 10 }], "Intervals must be set as properties");
-    test.deepEqual(bands['features'][1]['properties'],
+    test.deepEqual(bands.features[1].properties,
         [{ lowerValue: 10, upperValue: 14 }], "Intervals must be set as properties");
 
-    test.equal(bands['features'][1]['geometry']['coordinates'].length, 
+    test.equal(bands.features[1].geometry.coordinates.length, 
         4, "Coordinates must have four elements");
 
 
