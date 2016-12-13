@@ -1,6 +1,6 @@
 {
   "name": "raster-marching-squares",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Create isobands and isolines directly from a Raster with the marching-squares algorithm",
   "keywords": [
     "isolines",
