@@ -16,6 +16,6 @@ for i in \
     isolines-breaks\
     geotiff-isolines; do
    test/render-isolines.js $i \
-      && [ "$(compare -metric rmse test/samples/$i.png test/output/$i.png null: 2>&1)" = "0 (0)" ] \
+      && [ "$(compare -metric ae -fuzz 10% test/samples/$i.png test/output/$i.png null: 2>&1)" = "0" ] \
       || echo "✗ test/output/$i.png and test/samples/$i.png differ"
 done

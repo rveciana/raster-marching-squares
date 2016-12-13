@@ -1,7 +1,7 @@
 {
-  "name": "js-georaster-tools",
+  "name": "raster-marching-squares",
   "version": "0.0.2",
-  "description": "Tools for drawing your raster files with JavaScript",
+  "description": "Create isobands and isolines directly from a Raster with the marching-squares algorithm",
   "keywords": [
     "isolines",
     "isobands",
@@ -15,20 +15,21 @@
   },
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/rveciana/js-raster-tools/issues"
+    "url": "https://github.com/rveciana/raster-marching-squares/issues"
   },
-  "homepage": "https://github.com/rveciana/js-raster-tools#readme",
-  "main": "build/d3-marching-squares.js",
+  "homepage": "https://github.com/rveciana/raster-marching-squares#readme",
+  "main": "build/raster-marching-squares.js",
   "jsnext:main": "index",
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n rastertools -o build/d3-marching-squares.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup --banner \"$(preamble)\" -f umd -n rastertools -o build/raster-marching-squares.js -- index.js",
     "test": "tape 'test/**/*-test.js' && mkdir -p test/output && test/compare-images",
-    "prepublish": "npm run test && uglifyjs build/d3-marching-squares.js -c -m -o build/d3-marching-squares.min.js",
-    "postpublish": "zip -j build/d3-marching-squares.zip -- LICENSE README.md build/d3-marching-squares.js build/d3-marching-squares.min.js"
+    "posttest": "uglifyjs build/raster-marching-squares.js -c -m -o build/raster-marching-squares.min.js",
+    "postpublish": "git push && git push --tags",
+    "prepublish": "npm run test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rveciana/js-raster-tools.git"
+    "url": "git+https://github.com/rveciana/raster-marching-squares.git"
   },
   "devDependencies": {
     "canvas": "1",
@@ -36,6 +37,7 @@
     "d3-geo": "^1.1.1",
     "d3-scale": "^1.0.1",
     "geotiff": "^0.3.3",
+    "package-preamble": "0.0.2",
     "rollup": "0.34",
     "tape": "4",
     "topojson": "^1.6.26",
