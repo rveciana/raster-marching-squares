@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 var fs = require("fs"),
-    Canvas = require("canvas"),
+    {createCanvas} = require("canvas"),
     d3_geo = require("d3-geo"),
     d3_array = require("d3-array"),
-    d3_scale = require("d3-scale"),
+    d3_interpolate = require("d3-interpolate"),
     geotiff = require("geotiff"),
     topojson = require("topojson"),
     isobands = require("../");
@@ -14,7 +14,7 @@ var width = 960,
     height= 500;
 var name = process.argv[2];
 
-var canvas = new Canvas(width, height),
+var canvas = createCanvas(width, height),
 context = canvas.getContext("2d");
 
 var projection = d3_geo.geoEquirectangular();
@@ -73,7 +73,7 @@ if(name.indexOf("geotiff") === -1){
     var minVal = -75.0;
 
     var intervals = d3_array.range(minVal, maxVal+(maxVal-minVal)/20, (maxVal-minVal)/20);
-    var colors = d3_array.ticks(0, 1, intervals.length).map(function(d){return d3_scale.interpolatePlasma(d);});
+    var colors = d3_array.ticks(0, 1, intervals.length).map(function(d){return d3_interpolate.interpolateLab(d);});
     geoTransform = [0, 0.500695, 0, 90, 0, -0.5]; //x-interval corrected to match borders
 
     var bands = isobands.isobands(data, geoTransform, intervals);
