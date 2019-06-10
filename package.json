@@ -38,7 +38,7 @@
     "d3-scale": "^3.0.0",
     "geotiff": "^0.4.1",
     "package-preamble": "0.1.0",
-    "rollup": "1.14",
+    "rollup": "^1.14.6",
     "tape": "4",
     "topojson": "^3.0.2",
     "uglify-js": "3"

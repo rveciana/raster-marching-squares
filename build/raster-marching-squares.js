@@ -1,4 +1,4 @@
-// https://github.com/rveciana/raster-marching-squares#readme Version 0.1.1. Copyright 2019 Roger Veciana i Rovira.
+// https://github.com/rveciana/raster-marching-squares#readme Version 0.1.2. Copyright 2019 Roger Veciana i Rovira.
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
