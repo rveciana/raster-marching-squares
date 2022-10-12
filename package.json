@@ -36,7 +36,7 @@
     "d3-array": "^2.2.0",
     "d3-geo": "^1.11.3",
     "d3-scale": "^3.0.0",
-    "geotiff": "^0.4.1",
+    "geotiff": "^2.0.5",
     "package-preamble": "0.1.0",
     "rollup": "^1.14.6",
     "tape": "4",
